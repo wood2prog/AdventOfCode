@@ -1,31 +1,32 @@
-// import the file
-const { resolveObjectURL } = require("buffer");
 const fs = require("fs");
-fs.readFile("Day1/challengeOneCodes.txt", "utf-8", (err, data) => {
-  const rawData = data.split("\n");
+const util = require("util");
+const readFileAsync = util.promisify(fs.readFile);
 
-  const left = [];
-  const right = [];
-  let results = 0;
-  // parse the file one line at a time
-  for (let pair of rawData) {
-    // split the line on the space between the numbers
-    const num1 = Number(pair.slice(0, 5));
-    const num2 = Number(pair.slice(pair.length - 5, pair.length));
-    left.push(num1);
-    right.push(num2);
-  }
-  left.sort((a, b) => {
-    return a - b;
-  });
-  right.sort((a, b) => {
-    return a - b;
-  });
+const diffBetweenLists = async function (fileName) {
+  // import the data from the file
+  const data = (await readFileAsync(fileName, "utf-8")).split("\n");
+  const leftList = [];
+  const rightList = [];
+  const diff = [];
 
-  for (let i = 0; i < left.length; i++) {
-    // get the absolute difference between the numbers and add to the final result
-    results += Math.abs(left[i] - right[i]);
+  for (let i of data) {
+    let [left, right] = i.split("   ");
+    leftList.push(Number(left));
+    rightList.push(Number(right));
   }
-  // display the answer
-  console.log(results);
-});
+
+  leftList.sort((a, b) => a - b);
+  rightList.sort((a, b) => a - b);
+
+  for (let i = 0; i < leftList.length; i++) {
+    diff.push(Math.abs(leftList[i] - rightList[i]));
+  }
+
+  return diff.reduce((acc, curr) => {
+    return acc + curr;
+  });
+};
+
+diffBetweenLists("Day1\\challengeOneCodes.txt").then((data) =>
+  console.log(data)
+);
