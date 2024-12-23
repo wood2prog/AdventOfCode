@@ -1,7 +1,7 @@
 "use strict";
-const fs = require("fs");
-const util = require("util");
-const readFileAsync = util.promisify(fs.readFile);
+import { count } from "console";
+import { readFile } from "fs/promises";
+import { report } from "process";
 
 // all numbers in the array need to be heading in a single direction
 // platueas are not permitted
@@ -37,6 +37,14 @@ export const convStrToNumArr = function (str) {
 };
 
 const countSafeReports = async function (filepath) {
-  data = (await readFileAsync(filepath, "utf-8")).split("\n");
-  console.log(data);
+  const data = (await readFile(filepath, "utf-8")).split("\n");
+  let count = 0;
+  for (const row of data) {
+    const reportArr = convStrToNumArr(row);
+    isLinear(reportArr) && isSafeRateChange(reportArr) ? (count += 1) : -1;
+  }
+
+  return count;
 };
+
+countSafeReports("Day2\\reports.txt").then((value) => console.log(value));
