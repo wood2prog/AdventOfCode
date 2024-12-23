@@ -7,7 +7,7 @@
 // one outlier can be forgiven
 
 export const isLinear = function (arrNum) {
-  if (
+  return (
     arrNum.every((curr, index) => {
       if (index === 0) {
         return true;
@@ -22,19 +22,16 @@ export const isLinear = function (arrNum) {
         return curr > arrNum[index - 1];
       }
     })
-  ) {
-    return true;
-  } else {
-    return false;
-  }
+  );
 };
 
-console.log(
-  [1, 2].every((value, index, arr) => {
+export const isSafeRateChange = function (arrNum) {
+  return arrNum.every((curr, index) => {
     if (index === 0) {
       return true;
     } else {
-      return value > arr[index - 1];
+      const diff = Math.abs(curr - arrNum[index - 1]);
+      return diff <= 3 && diff > 0;
     }
-  })
-);
+  });
+};
