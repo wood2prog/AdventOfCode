@@ -35,3 +35,8 @@ export const isSafeRateChange = function (arrNum) {
 export const convStrToNumArr = function (str) {
   return str.split(" ").map((val) => Number(val));
 };
+
+const countSafeReports = async function (filepath) {
+  data = (await readFileAsync(filepath, "utf-8")).split("\n");
+  console.log(data);
+};
