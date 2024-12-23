@@ -1,5 +1,6 @@
 import { expect, test } from "vitest";
-import { isLinear, isSafeRateChange } from "./day2.js";
+import { isLinear, isSafeRateChange, convStrToNumArr } from "./day2.js";
+import exp from "constants";
 
 test(" 1, 1 should return false", () => {
   expect(isLinear([1, 1])).toBe(false);
@@ -35,4 +36,16 @@ test("5, 1 should return false", () => {
 
 test("1, 2, 6 should return false", () => {
   expect(isSafeRateChange([1, 2, 6])).toBe(false);
+});
+
+test("1 should return [1]", () => {
+  expect(convStrToNumArr("1")).toStrictEqual([1]);
+});
+
+test("1 2 should return [1, 2]", () => {
+  expect(convStrToNumArr("1 2")).toStrictEqual([1, 2]);
+});
+
+test("1 2 3 should return [1, 2, 3]", () => {
+  expect(convStrToNumArr("1 2 3")).toStrictEqual([1, 2, 3]);
 });
