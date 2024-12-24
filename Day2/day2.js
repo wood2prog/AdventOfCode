@@ -17,7 +17,7 @@ export const isLinear = function (arrNum, ignoreFirstAnomoly = false) {
         (arrNum[i] < arrNum[i - 1] && arrNum[i] < arrNum[i + 1])
       ) {
         arrNum.splice(i, 1);
-        i--;
+        break;
       }
     }
   }
@@ -31,7 +31,15 @@ export const isLinear = function (arrNum, ignoreFirstAnomoly = false) {
   );
 };
 
-export const isSafeRateChange = function (arrNum) {
+export const isSafeRateChange = function (arrNum, ignoreFirstAnomoly = false) {
+  if (ignoreFirstAnomoly) {
+    for (let i = 1; i < arrNum.length; i++) {
+      if (Math.abs(arrNum[i] - arrNum[i - 1]) > 3) {
+        arrNum.splice(i, 1);
+        break;
+      }
+    }
+  }
   return arrNum.every((curr, index) => {
     return (
       index === 0 ||

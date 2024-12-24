@@ -46,6 +46,10 @@ test("1 2 4 3 4 should return true if ignoreFirstAnomoly set to true", () => {
   expect(isLinear([1, 2, 4, 3, 4], true)).toBe(true);
 });
 
+test("1 3 2 3 5 4 should return false if ignoreFirstAnomoly set to true", () => {
+  expect(isLinear([1, 3, 2, 3, 5, 4], true)).toBe(false);
+});
+
 // convStrToNumArr
 test("1 should return [1]", () => {
   expect(convStrToNumArr("1")).toStrictEqual([1]);
@@ -57,4 +61,12 @@ test("1 2 should return [1, 2]", () => {
 
 test("1 2 3 should return [1, 2, 3]", () => {
   expect(convStrToNumArr("1 2 3")).toStrictEqual([1, 2, 3]);
+});
+
+test("1 2 6 3 should return true when the ignoreFirstAnomoly flag is set to true", () => {
+  expect(isSafeRateChange([1, 2, 6, 3], true)).toBe(true);
+});
+
+test("1 2 6 7 should return false when ignoreFirstAnomoly flag is set to true", () => {
+  expect(isSafeRateChange([1, 2, 6, 7], true)).toBe(false);
 });
