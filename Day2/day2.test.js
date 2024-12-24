@@ -1,5 +1,10 @@
 import { expect, expectTypeOf, test } from "vitest";
-import { isLinear, isSafeRateChange, convStrToNumArr } from "./day2.js";
+import {
+  isLinear,
+  isSafeRateChange,
+  convStrToNumArr,
+  removeFirstAnomoly,
+} from "./day2.js";
 
 // isLinear
 test(" 1, 1 should return false", () => {
@@ -21,6 +26,8 @@ test("1, 2, 1 should return false", () => {
 test("2, 1, 2 should return false", () => {
   expect(isLinear([2, 1, 2])).toBe(false);
 });
+
+//isSafeRateChange
 
 test("1, 2 should return true", () => {
   expect(isSafeRateChange([1, 2])).toBe(true);
@@ -69,4 +76,22 @@ test("1 2 6 3 should return true when the ignoreFirstAnomoly flag is set to true
 
 test("1 2 6 7 should return false when ignoreFirstAnomoly flag is set to true", () => {
   expect(isSafeRateChange([1, 2, 6, 7], true)).toBe(false);
+});
+
+// removeFirstAnomoly
+
+test("1 2 6 7 should return 1 6 7", () => {
+  expect(removeFirstAnomoly([1, 2, 6, 7])).toStrictEqual([1, 2, 7]);
+});
+
+test("1 2 2 7 should return 1 2 7", () => {
+  expect(removeFirstAnomoly([1, 2, 2, 7])).toStrictEqual([1, 2, 7]);
+});
+
+test("1 3 2 7 should return 1 2 7", () => {
+  expect(removeFirstAnomoly([1, 3, 2, 7])).toStrictEqual([1, 2, 7]);
+});
+
+test("3 2 4 7 should return 3 4 7", () => {
+  expect(removeFirstAnomoly([3, 2, 4, 7])).toStrictEqual([3, 4, 7]);
 });
