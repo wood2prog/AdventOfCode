@@ -1,7 +1,5 @@
 "use strict";
-import { count } from "console";
 import { readFile } from "fs/promises";
-import { report } from "process";
 
 // all numbers in the array need to be heading in a single direction
 // platueas are not permitted
@@ -11,7 +9,18 @@ import { report } from "process";
 // one peak can be forgiven
 // one outlier can be forgiven
 
-export const isLinear = function (arrNum) {
+export const isLinear = function (arrNum, ignoreFirstAnomoly = false) {
+  if (ignoreFirstAnomoly) {
+    for (let i = 1; i < arrNum.length - 1; i++) {
+      if (
+        (arrNum[i] > arrNum[i - 1] && arrNum[i] > arrNum[i + 1]) ||
+        (arrNum[i] < arrNum[i - 1] && arrNum[i] < arrNum[i + 1])
+      ) {
+        arrNum.splice(i, 1);
+        i--;
+      }
+    }
+  }
   return (
     arrNum.every((curr, index) => {
       return index === 0 || curr < arrNum[index - 1];
@@ -47,4 +56,4 @@ const countSafeReports = async function (filepath) {
   return count;
 };
 
-countSafeReports("Day2\\reports.txt").then((value) => console.log(value));
+countSafeReports("reports.txt").then((value) => console.log(value));

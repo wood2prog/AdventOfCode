@@ -1,7 +1,7 @@
-import { expect, test } from "vitest";
+import { expect, expectTypeOf, test } from "vitest";
 import { isLinear, isSafeRateChange, convStrToNumArr } from "./day2.js";
-import exp from "constants";
 
+// isLinear
 test(" 1, 1 should return false", () => {
   expect(isLinear([1, 1])).toBe(false);
 });
@@ -38,6 +38,15 @@ test("1, 2, 6 should return false", () => {
   expect(isSafeRateChange([1, 2, 6])).toBe(false);
 });
 
+test("1 2 1 3 should return false if ignoreFirstAnomoly set to true", () => {
+  expect(isLinear([1, 2, 1, 3], true)).toBe(false);
+});
+
+test("1 2 4 3 4 should return true if ignoreFirstAnomoly set to true", () => {
+  expect(isLinear([1, 2, 4, 3, 4], true)).toBe(true);
+});
+
+// convStrToNumArr
 test("1 should return [1]", () => {
   expect(convStrToNumArr("1")).toStrictEqual([1]);
 });
