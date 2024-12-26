@@ -1,27 +1,7 @@
 "use strict";
 import { readFile } from "fs/promises";
-import { report } from "process";
 
-// all numbers in the array need to be heading in a single direction
-// platueas are not permitted
-
-// all numbers must be with in 3 of each other
-
-// one peak can be forgiven
-// one outlier can be forgiven
-
-export const isLinear = function (arrNum, ignoreFirstAnomoly = false) {
-  if (ignoreFirstAnomoly) {
-    for (let i = 1; i < arrNum.length - 1; i++) {
-      if (
-        (arrNum[i] > arrNum[i - 1] && arrNum[i] > arrNum[i + 1]) ||
-        (arrNum[i] < arrNum[i - 1] && arrNum[i] < arrNum[i + 1])
-      ) {
-        arrNum.splice(i, 1);
-        break;
-      }
-    }
-  }
+export const isLinear = function (arrNum) {
   return (
     arrNum.every((curr, index) => {
       return index === 0 || curr < arrNum[index - 1];
@@ -32,15 +12,7 @@ export const isLinear = function (arrNum, ignoreFirstAnomoly = false) {
   );
 };
 
-export const isSafeRateChange = function (arrNum, ignoreFirstAnomoly = false) {
-  if (ignoreFirstAnomoly) {
-    for (let i = 1; i < arrNum.length; i++) {
-      if (Math.abs(arrNum[i] - arrNum[i - 1]) > 3) {
-        arrNum.splice(i, 1);
-        break;
-      }
-    }
-  }
+export const isSafeRateChange = function (arrNum) {
   return arrNum.every((curr, index) => {
     return (
       index === 0 ||
@@ -48,6 +20,21 @@ export const isSafeRateChange = function (arrNum, ignoreFirstAnomoly = false) {
         Math.abs(curr - arrNum[index - 1]) > 0)
     );
   });
+};
+
+export const isValidReport = function (numArr) {
+  if (isLinear(numArr) && isSafeRateChange(numArr)) {
+    return numArr;
+  } else {
+    for (let i = 0; i < numArr.length; i++) {
+      const firstHalf = numArr.slice(0, i);
+      const secondHalf = numArr.slice(i + 1, numArr.length);
+      const newArr = [...firstHalf, ...secondHalf];
+      if (isLinear(newArr) && isSafeRateChange(newArr)) {
+        return true;
+      }
+    }
+  }
 };
 
 export const convStrToNumArr = function (str) {
@@ -59,18 +46,15 @@ const countSafeReports = async function (filepath) {
   let count = 0;
 
   for (const row of data) {
-    const reportArr = convStrToNumArr(row);
-    console.log(reportArr);
-    if (
-      (isLinear(reportArr, true) && isSafeRateChange(reportArr)) ||
-      (isLinear(reportArr) && isSafeRateChange(reportArr, true))
-    ) {
+    const reportStatus = isValidReport(convStrToNumArr(row));
+    if (reportStatus) {
       count++;
-      console.log(true);
     }
   }
 
   return count;
 };
 
-countSafeReports("test.txt").then((value) => console.log(value));
+countSafeReports("Day2\\reports.txt").then((value) =>
+  console.log("The answer is ", value)
+);
