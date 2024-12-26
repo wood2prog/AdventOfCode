@@ -5,8 +5,6 @@ import {
   convStrToNumArr,
   removeFirstAnomoly,
 } from "./day2.js";
-import exp from "constants";
-import { isArgumentsObject } from "util/types";
 
 // isLinear
 test(" 1, 1 should return false", () => {
