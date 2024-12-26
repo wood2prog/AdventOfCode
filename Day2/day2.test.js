@@ -5,6 +5,8 @@ import {
   convStrToNumArr,
   removeFirstAnomoly,
 } from "./day2.js";
+import exp from "constants";
+import { isArgumentsObject } from "util/types";
 
 // isLinear
 test(" 1, 1 should return false", () => {
@@ -65,27 +67,31 @@ test("1 2 3 should return [1, 2, 3]", () => {
 
 // removeFirstAnomoly
 
-test("1 3 2 4 should return 1 2 4", () => {
-  expect(removeFirstAnomoly([1, 3, 2, 4])).toStrictEqual([1, 2, 4]);
+test("1 should return 1", () => {
+  expect(removeFirstAnomoly([1])).toStrictEqual([1]);
 });
 
-test("3 1 2 1 should return 3 2 1", () => {
-  expect(removeFirstAnomoly([3, 1, 2, 1])).toStrictEqual([3, 2, 1]);
+test("1 1 should return 1", () => {
+  expect(removeFirstAnomoly([1, 1])).toStrictEqual([1]);
 });
 
-test("3 4 4 5 should return 3 4 5", () => {
-  expect(removeFirstAnomoly([3, 4, 4, 5])).toStrictEqual([3, 4, 5]);
+test("1 2 should return 1 2", () => {
+  expect(removeFirstAnomoly([1, 2])).toStrictEqual([1, 2]);
 });
 
-test("3 2 4 5 5 6 should return 3 4 5 5 6", () => {
-  expect(removeFirstAnomoly([3, 2, 4, 5, 5, 6])).toStrictEqual([3, 4, 5, 5, 6]);
+test("1 2 2 should return 1 2", () => {
+  expect(removeFirstAnomoly([1, 2, 2])).toStrictEqual([1, 2]);
 });
 
-test("3 3 4 5 should return 3 4 5", () => {
-  expect(removeFirstAnomoly([3, 3, 4, 5])).toStrictEqual([3, 4, 5]);
+test("1 2 1 should return 1 2", () => {
+  expect(removeFirstAnomoly([1, 2, 1])).toStrictEqual([1, 2]);
 });
 
-test("3 4 5 5 should return 3 4 5", () => {
-  expect(removeFirstAnomoly([3, 4, 5, 5])).toStrictEqual([3, 4, 5]);
+test("2 1 2 should return 2 1", () => {
+  expect(removeFirstAnomoly([2, 1, 2])).toStrictEqual([2, 1]);
+});
+
+test("1 5 should return 1", () => {
+  expect(removeFirstAnomoly([1, 5])).toStrictEqual([1]);
 });
 >>>>>>> 154ba88 (Clean up unused code in the tests and functions)
