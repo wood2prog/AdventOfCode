@@ -1,5 +1,6 @@
 "use strict";
 import { readFile } from "fs/promises";
+import { report } from "process";
 
 // all numbers in the array need to be heading in a single direction
 // platueas are not permitted
@@ -56,12 +57,20 @@ export const convStrToNumArr = function (str) {
 const countSafeReports = async function (filepath) {
   const data = (await readFile(filepath, "utf-8")).split("\n");
   let count = 0;
+
   for (const row of data) {
     const reportArr = convStrToNumArr(row);
-    isLinear(reportArr) && isSafeRateChange(reportArr) ? (count += 1) : -1;
+    console.log(reportArr);
+    if (
+      (isLinear(reportArr, true) && isSafeRateChange(reportArr)) ||
+      (isLinear(reportArr) && isSafeRateChange(reportArr, true))
+    ) {
+      count++;
+      console.log(true);
+    }
   }
 
   return count;
 };
 
-countSafeReports("reports.txt").then((value) => console.log(value));
+countSafeReports("test.txt").then((value) => console.log(value));
