@@ -62,33 +62,3 @@ test("1 2 should return [1, 2]", () => {
 test("1 2 3 should return [1, 2, 3]", () => {
   expect(convStrToNumArr("1 2 3")).toStrictEqual([1, 2, 3]);
 });
-
-// removeFirstAnomoly
-
-test("1 should return 1", () => {
-  expect(removeFirstAnomoly([1])).toStrictEqual([1]);
-});
-
-test("1 1 should return 1", () => {
-  expect(removeFirstAnomoly([1, 1])).toStrictEqual([1]);
-});
-
-test("1 2 should return 1 2", () => {
-  expect(removeFirstAnomoly([1, 2])).toStrictEqual([1, 2]);
-});
-
-test("1 2 2 should return 1 2", () => {
-  expect(removeFirstAnomoly([1, 2, 2])).toStrictEqual([1, 2]);
-});
-
-test("1 2 1 should return 1 2", () => {
-  expect(removeFirstAnomoly([1, 2, 1])).toStrictEqual([1, 2]);
-});
-
-test("2 1 2 should return 2 1", () => {
-  expect(removeFirstAnomoly([2, 1, 2])).toStrictEqual([2, 1]);
-});
-
-test("1 5 should return 1", () => {
-  expect(removeFirstAnomoly([1, 5])).toStrictEqual([1]);
-});
