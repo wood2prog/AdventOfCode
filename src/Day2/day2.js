@@ -55,6 +55,6 @@ const countSafeReports = async function (filepath) {
   return count;
 };
 
-countSafeReports("Day2\\reports.txt").then((value) =>
+countSafeReports("src\\Day2\\reports.txt").then((value) =>
   console.log("The answer is ", value)
 );
