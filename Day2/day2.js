@@ -1,19 +1,7 @@
 "use strict";
 import { readFile } from "fs/promises";
 
-<<<<<<< HEAD
 export const isLinear = function (arrNum) {
-=======
-// all numbers in the array need to be heading in a single direction
-// platueas are not permitted
-
-// all numbers must be with in 3 of each other
-
-// one peak can be forgiven
-// one outlier can be forgiven
-
-export const isLinear = function (arrNum, ignoreFirstAnomoly = false) {
->>>>>>> 154ba88 (Clean up unused code in the tests and functions)
   return (
     arrNum.every((curr, index) => {
       return index === 0 || curr < arrNum[index - 1];
@@ -24,11 +12,7 @@ export const isLinear = function (arrNum, ignoreFirstAnomoly = false) {
   );
 };
 
-<<<<<<< HEAD
 export const isSafeRateChange = function (arrNum) {
-=======
-export const isSafeRateChange = function (arrNum, ignoreFirstAnomoly = false) {
->>>>>>> 154ba88 (Clean up unused code in the tests and functions)
   return arrNum.every((curr, index) => {
     return (
       index === 0 ||
