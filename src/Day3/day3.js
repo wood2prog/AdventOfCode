@@ -48,10 +48,10 @@ export const openFilePart2 = async function (filePath) {
   return results;
 };
 
-openFile("src\\Day3\\memorydump.txt").then((value) =>
-  console.log("The answer to part one is", value)
-);
+// openFile("src\\Day3\\memorydump.txt").then((value) =>
+//   console.log("The answer to part one is", value)
+// );
 
-openFilePart2("src\\Day3\\memorydump.txt").then((value) =>
-  console.log("The answer to part two is", value)
-);
+// openFilePart2("src\\Day3\\memorydump.txt").then((value) =>
+//   console.log("The answer to part two is", value)
+// );
