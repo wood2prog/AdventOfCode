@@ -36,13 +36,20 @@ export const findXmas = function (str) {
   const backwardDiag = backwardDiagArr.join("\n");
   console.log(backwardDiag);
 
+  // FIX combine these strings into one searchable string at the end
   let count = 0;
   count += (forwardStr.match(searchXmas) || []).length;
   count += (backwardStr.match(searchXmas) || []).length;
   count += (forwardDiag.match(searchXmas) || []).length;
   count += (backwardDiag.match(searchXmas) || []).length;
+  // count += (forwardDiagReverse.match(searchXmas) || []).length;
+  // count += (backwardDiagReverse.match(searchXmas) || []).length;
+  // count += (up.match(searchXmas) || []).length;
+  // count += (down.match(searchXmas) || []).length;
 
-  // console.log(forwardStr);
-  // console.log(backwardStr);
   return count;
 };
+
+// another idea would be to convert the entire string to an array and then iterate through the string
+// and every time an X is encountered check all the way around for a match to XMAS
+// this would save computing steps and each check would be a function - checkUp, checkDown, checkRightDiag, etc
