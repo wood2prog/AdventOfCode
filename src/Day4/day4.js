@@ -1,55 +1,164 @@
-import { fs } from "fs/promises";
-import { comma } from "postcss/lib/list";
+import { count } from "console";
+import { read } from "fs";
+import { readFile } from "fs/promises";
 
-export const findXmas = function (str) {
-  const searchXmas = /XMAS/g;
-  const forwardStr = str;
-  const backwardStr = str.split("").reverse().join("");
-  const forwardDiagArr = [];
-  const backwardDiagArr = [];
-  const strArr = str.split("\n");
-  const strArrReverse = str
-    .split("\n")
-    .map((value) => value.split("").reverse().join(""));
-
-  // create forward diagonal
-  for (let i = 0; i < strArr.length; i++) {
-    for (let j = 0; j < strArr[i].length; j++) {
-      if (forwardDiagArr[i + j] === undefined) {
-        forwardDiagArr.push([]);
-      }
-      forwardDiagArr[i + j] = strArr[i][j] + forwardDiagArr[i + j];
+const toArray = function (arr) {
+  const newArr = arr.split("\n").map((value) => {
+    const strArr = [];
+    for (const char of value) {
+      strArr.push([char]);
     }
+    return strArr;
+  });
+
+  return newArr;
+};
+
+export const isLookForward = function (arr, posX, posY) {
+  const newArr = toArray(arr);
+  let str = "";
+  for (let i = 0; i < 4; i++) {
+    str += newArr[posY][posX + i];
   }
-  const forwardDiag = forwardDiagArr.join("\n");
+  return str === "XMAS";
+};
 
-  // create the backward diagonal
-  for (let i = 0; i < strArrReverse.length; i++) {
-    for (let j = 0; j < strArrReverse[i].length; j++) {
-      if (backwardDiagArr[i + j] === undefined) {
-        backwardDiagArr.push([]);
-      }
+export const isLookBackward = function (arr, posX, posY) {
+  const newArr = toArray(arr);
+  let str = "";
+  for (let i = 0; i < 4; i++) {
+    str += newArr[posY][posX - i];
+  }
+  return str === "XMAS";
+};
 
-      backwardDiagArr[i + j] = backwardDiagArr[i + j] + strArrReverse[i][j];
+export const isLookDown = function (arr, posX, posY) {
+  const newArr = toArray(arr);
+  let str = "";
+  if (arr.length >= 4 && posY < arr.length - 5) {
+    for (let i = 0; i < 4; i++) {
+      str += newArr[posY + i][posX];
     }
+  } else {
+    return false;
   }
-  const backwardDiag = backwardDiagArr.join("\n");
-  console.log(backwardDiag);
+  return str === "XMAS";
+};
 
-  // FIX combine these strings into one searchable string at the end
+export const isLookUp = function (arr, posX, posY) {
+  const newArr = toArray(arr);
+  let str = "";
+  if (arr.length > 1 && posY >= 3) {
+    for (let i = 0; i < 4; i++) {
+      str += newArr[posY - i][posX];
+    }
+  } else {
+    return false;
+  }
+  return str === "XMAS";
+};
+
+export const isLookUpDiagForward = function (arr, posX, posY) {
+  const newArr = toArray(arr);
+  let str = "";
+  if (arr.length >= 4 && posY >= 3) {
+    for (let i = 0; i < 4; i++) {
+      str += newArr[posY - i][posX + i];
+    }
+  } else {
+    return false;
+  }
+  return str === "XMAS";
+};
+
+export const isLookDownDiagForward = function (arr, posX, posY) {
+  const newArr = toArray(arr);
+  let str = "";
+  if (arr.length > 1) {
+    for (let i = 0; i < 4; i++) {
+      str += newArr[posY + i][posX + i];
+    }
+  } else {
+    return false;
+  }
+  return str === "XMAS";
+};
+
+export const isLookDownDiagBackward = function (arr, posX, posY) {
+  const newArr = toArray(arr);
+  let str = "";
+  if (arr.length > 1) {
+    for (let i = 0; i < 4; i++) {
+      str += newArr[posY + i][posX - i];
+    }
+  } else {
+    return false;
+  }
+  return str === "XMAS";
+};
+
+export const isLookUpDiagBackward = function (arr, posX, posY) {
+  const newArr = toArray(arr);
+  let str = "";
+  if (arr.length >= 4 && posY >= 3) {
+    for (let i = 0; i < 4; i++) {
+      str += newArr[posY - i][posX - i];
+    }
+  } else {
+    return false;
+  }
+  return str === "XMAS";
+};
+
+export const lookAround = function (arr, posX, posY) {
   let count = 0;
-  count += (forwardStr.match(searchXmas) || []).length;
-  count += (backwardStr.match(searchXmas) || []).length;
-  count += (forwardDiag.match(searchXmas) || []).length;
-  count += (backwardDiag.match(searchXmas) || []).length;
-  // count += (forwardDiagReverse.match(searchXmas) || []).length;
-  // count += (backwardDiagReverse.match(searchXmas) || []).length;
-  // count += (up.match(searchXmas) || []).length;
-  // count += (down.match(searchXmas) || []).length;
+  if (isLookForward(arr, posX, posY)) {
+    count += 1;
+  }
+
+  if (isLookBackward(arr, posX, posY)) {
+    count += 1;
+  }
+
+  if (isLookDown(arr, posX, posY)) {
+    count += 1;
+  }
+
+  if (isLookUp(arr, posX, posY)) {
+    count += 1;
+  }
+
+  if (isLookUpDiagForward(arr, posX, posY)) {
+    count += 1;
+  }
+
+  if (isLookDownDiagForward(arr, posX, posY)) {
+    count += 1;
+  }
+
+  if (isLookDownDiagBackward(arr, posX, posY)) {
+    count += 1;
+  }
+
+  if (isLookUpDiagBackward(arr, posX, posY)) {
+    count += 1;
+  }
 
   return count;
 };
 
-// another idea would be to convert the entire string to an array and then iterate through the string
-// and every time an X is encountered check all the way around for a match to XMAS
-// this would save computing steps and each check would be a function - checkUp, checkDown, checkRightDiag, etc
+const countXMAS = async function (filepath) {
+  const data = await readFile(filepath, "utf-8");
+  let count = 0;
+
+  const newArr = toArray(data);
+
+  for (let i = 0; i < newArr.length; i++) {
+    for (let j = 0; j < newArr[i].length; j++) {
+      count += lookAround(data, i, j);
+    }
+  }
+  console.log(count);
+};
+
+// countXMAS("src\\Day4\\test.txt");
