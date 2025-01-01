@@ -35,7 +35,7 @@ export const isLookBackward = function (arr, posX, posY) {
 export const isLookDown = function (arr, posX, posY) {
   const newArr = toArray(arr);
   let str = "";
-  if (arr.length >= 4 && posY < arr.length - 5) {
+  if (newArr.length >= 4 && posY <= newArr.length - 4) {
     for (let i = 0; i < 4; i++) {
       str += newArr[posY + i][posX];
     }
@@ -74,7 +74,7 @@ export const isLookUpDiagForward = function (arr, posX, posY) {
 export const isLookDownDiagForward = function (arr, posX, posY) {
   const newArr = toArray(arr);
   let str = "";
-  if (arr.length > 1) {
+  if (newArr.length >= 4 && posY <= newArr.length - 4) {
     for (let i = 0; i < 4; i++) {
       str += newArr[posY + i][posX + i];
     }
@@ -87,7 +87,7 @@ export const isLookDownDiagForward = function (arr, posX, posY) {
 export const isLookDownDiagBackward = function (arr, posX, posY) {
   const newArr = toArray(arr);
   let str = "";
-  if (arr.length > 1) {
+  if (newArr.length >= 4 && posY <= newArr.length - 4) {
     for (let i = 0; i < 4; i++) {
       str += newArr[posY + i][posX - i];
     }
@@ -100,7 +100,7 @@ export const isLookDownDiagBackward = function (arr, posX, posY) {
 export const isLookUpDiagBackward = function (arr, posX, posY) {
   const newArr = toArray(arr);
   let str = "";
-  if (arr.length >= 4 && posY >= 3) {
+  if (newArr.length >= 4 && posY >= 3) {
     for (let i = 0; i < 4; i++) {
       str += newArr[posY - i][posX - i];
     }
@@ -152,13 +152,17 @@ const countXMAS = async function (filepath) {
   let count = 0;
 
   const newArr = toArray(data);
-
-  for (let i = 0; i < newArr.length; i++) {
-    for (let j = 0; j < newArr[i].length; j++) {
-      count += lookAround(data, i, j);
+  for (let y = 0; y < newArr.length; y++) {
+    for (let x = 0; x < newArr[y].length; x++) {
+      if (newArr[y][x][0] === "X") {
+        console.log(y, x);
+        count += lookAround(data, x, y);
+      }
     }
   }
-  console.log(count);
+  return count;
 };
 
-// countXMAS("src\\Day4\\test.txt");
+countXMAS("src\\Day4\\textFile.txt").then((count) =>
+  console.log("The total count of XMAS is", count)
+);

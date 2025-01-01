@@ -39,7 +39,7 @@ test("O should return false", () => {
   expect(isLookBackward("O", 0, 0)).toBe(false);
 });
 
-test("X\\nM\\nA\\nS should equal true", () => {
+test("XMAS in the large array described should equal true", () => {
   expect(
     isLookDown(
       "OOOOOOO\nOAOAOAO\nOOMMMOO\nOAMXMAO\nOOMMMOO\nOAOAOAO\nOOOSOOO",
@@ -57,8 +57,12 @@ test("O\\nO\\nO should return false", () => {
   expect(isLookDown("O\nO\nO", 0, 0)).toBe(false);
 });
 
-test("O\\nO\\nO should return false", () => {
+test("O\\nO\\nO\\nO should return false", () => {
   expect(isLookDown("O\nO\nO\nO", 0, 0)).toBe(false);
+});
+
+test("X\\nM\\nA\\nS should return true", () => {
+  expect(isLookDown("X\nM\nA\nS", 0, 0)).toBe(true);
 });
 
 test("X\\nM\\nA\\nS should return false", () => {
@@ -79,11 +83,11 @@ test("O should return false", () => {
   expect(isLookUp("O", 0, 0)).toBe(false);
 });
 
-test("O should return false", () => {
+test("O\\nO\\nO\\nO should return false", () => {
   expect(isLookUp("O\nO\nO\nO", 0, 0)).toBe(false);
 });
 
-test("O should return false", () => {
+test("O\\nO\\nO should return false", () => {
   expect(isLookUp("O\nO\nO", 0, 2)).toBe(false);
 });
 
@@ -119,6 +123,10 @@ test("O should return false", () => {
   expect(isLookDownDiagForward("O", 0, 0)).toBe(false);
 });
 
+test("OOO\\nOOO\\nOOO should return false", () => {
+  expect(isLookDownDiagForward("OOO\nOOO\nOOO", 0, 0)).toBe(false);
+});
+
 test("A diagonal backward and down XMAS should true", () => {
   expect(
     isLookDownDiagBackward(
@@ -131,6 +139,10 @@ test("A diagonal backward and down XMAS should true", () => {
 
 test("O should return false", () => {
   expect(isLookDownDiagBackward("O", 0, 0)).toBe(false);
+});
+
+test("OOO\\nOOO\\nOOO should return false", () => {
+  expect(isLookDownDiagBackward("OOO\nOOO\nOOO", 0, 0)).toBe(false);
 });
 
 test("A diagonal backward and up XMAS should true", () => {
