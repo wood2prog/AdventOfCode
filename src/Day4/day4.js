@@ -1,5 +1,3 @@
-import { count } from "console";
-import { read } from "fs";
 import { readFile } from "fs/promises";
 
 const toArray = function (arr) {
@@ -155,7 +153,6 @@ const countXMAS = async function (filepath) {
   for (let y = 0; y < newArr.length; y++) {
     for (let x = 0; x < newArr[y].length; x++) {
       if (newArr[y][x][0] === "X") {
-        console.log(y, x);
         count += lookAround(data, x, y);
       }
     }
